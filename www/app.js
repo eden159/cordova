@@ -1,13 +1,20 @@
-[
-  "./modules/ToastPage",
-  "./modules/MotionPage",
-  "./modules/DialogPage",
-  "./modules/NetworkPage",
-  "./modules/CameraPage",
-  "./modules/BarcodeScannerPage"
-].forEach(function(page) {
-  require(page).create();
-});
+//check if the user is already logged in
+var userCredentialsRaw = localStorage.getItem("credentials") || false;
 
-tabris.create("Drawer").append(tabris.create("PageSelector"));
-tabris.ui.children("Page")[0].open();
+if (userCredentialsRaw === false) {
+
+    page = require("./modules/LoginPage");
+
+    page.open(function(loginData) {
+        localStorage.setItem('credentials', JSON.stringify(loginData));
+
+        //open something else
+    }, function (error) {
+
+        //show an error message
+    });
+} else {
+    //tabris.create("Drawer").append(tabris.create("PageSelector"));
+}
+
+page.open();

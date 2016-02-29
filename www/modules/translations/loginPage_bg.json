@@ -1,0 +1,6 @@
+{
+  "#loginPage": {"title": "Вход"}
+  , "#txtEmail": {"message": "Имейл"}
+  , "#txtPassword": {"message": "парола"}
+  , "#btnLogin": {"text": "Вход"}
+}
