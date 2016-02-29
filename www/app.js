@@ -3,7 +3,8 @@ var userCredentialsRaw = localStorage.getItem("credentials") || false;
 
 if (userCredentialsRaw === false) {
 
-    page = require("./modules/LoginPage");
+    var LoginPage = require("./modules/LoginPage");
+    var page = new LoginPage();
 
     page.open(function(loginData) {
         localStorage.setItem('credentials', JSON.stringify(loginData));
@@ -11,10 +12,8 @@ if (userCredentialsRaw === false) {
         //open something else
     }, function (error) {
 
-        //show an error message
+        console.error(error);
     });
 } else {
     //tabris.create("Drawer").append(tabris.create("PageSelector"));
 }
-
-page.open();

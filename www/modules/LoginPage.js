@@ -3,9 +3,6 @@ var loginPage = function() {
     this.pageId = "loginPage";
     this.successCallback = false;
     this.failCallback = false;
-};
-
-loginPage.prototype.create = function() {
 
     this.page = tabris.create("Page", {id: this.pageId, topLevel: true});
 
@@ -31,19 +28,25 @@ loginPage.prototype.create = function() {
 
         var api = require("./ApiModule");
 
-        api.login(page.children('#txtEmail')[0], page.children('#txtPassword')[0], {
+        api.login(this.page.children('#txtEmail')[0], this.page.children('#txtPassword')[0], {
             "success": function(loginData) {
-                this.successCallback(loginData);
+                if (this.successCallback !== false) {
+                    this.successCallback(loginData);
+                }
             },
             "fail": function(error) {
-                this.failCallback(error);
+
+                if (this.failCallback !== false) {
+                    this.failCallback(error);
+                }
             }
         });
 
     }).appendTo(this.page);
 
     //apply the translations
-    page.apply(require("./TranslationModule")(this.pageId));
+    var TranslationModule = require("./TranslationModule");
+    this.page.apply(new TranslationModule(this.pageId));
 
     return this;
 };
@@ -55,4 +58,4 @@ loginPage.prototype.open = function(successCalback, failCallback) {
     this.page.open();
 };
 
-module.exports = page;
+module.exports = loginPage;
