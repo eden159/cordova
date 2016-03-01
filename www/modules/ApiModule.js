@@ -61,4 +61,27 @@ apiModule.prototype.logout = function(callbacks) {
     return this;
 };
 
+//get the competitions
+apiModule.prototype.getCompetitions = function(token, callbacks) {
+
+    // Run async remote request with fetch
+    fetch(settings.api_url+"competitions", {
+        method: 'post',
+        headers: {
+            'Accept': 'application/json',
+            'Token': token
+        }
+    }).then(function(response) {
+        return response.json();
+    }).catch(function(err) {
+
+        callbacks.fail(err);
+    }).then(function(json) {
+
+        callbacks.success(json);
+    });
+
+    return this;
+};
+
 module.exports = apiModule;
