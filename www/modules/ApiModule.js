@@ -2,8 +2,7 @@
 Promise = require("promise");
 require("whatwg-fetch");
 
-//the main URL for the API
-var apiEndpoint = '';
+var settings = require("./config.json");
 
 var apiModule = function() {
 };
@@ -21,12 +20,34 @@ apiModule.prototype.login = function(email, password, callbacks) {
     data.append('password', password);
 
     // Run async remote request with fetch
-    fetch(apiEndpoint+"login", {
+    fetch(settings.api_url+"login", {
         method: 'post',
         headers: {
             'Accept': 'application/json'
         },
         body: data
+    }).then(function(response) {
+        return response.json();
+    }).catch(function(err) {
+
+        callbacks.fail(err);
+    }).then(function(json) {
+
+        callbacks.success(json);
+    });
+
+    return this;
+};
+
+//logout an user
+apiModule.prototype.logout = function(callbacks) {
+
+    // Run async remote request with fetch
+    fetch(settings.api_url+"logout", {
+        method: 'post',
+        headers: {
+            'Accept': 'application/json'
+        }
     }).then(function(response) {
         return response.json();
     }).catch(function(err) {
